@@ -1,0 +1,141 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Muli', sans-serif;
+  color: rgb(51, 51, 51);
+}
+
+path,
+i,
+svg {
+  pointer-events: none;
+}
+
+.colors {
+  display: flex;
+  min-height: 80vh;
+  color: rgb(212, 212, 212);
+}
+
+.color {
+  height: 80vh;
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  position: relative;
+  overflow: hidden;
+}
+
+.color h2 {
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.sliders {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  bottom: 0%;
+  padding: 1rem;
+  background-color: rgb(255, 255, 255);
+  width: 80%;
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+  /* an adjustment style */
+  /* transform: translateY(100px); */
+  transition: all .5s ease-in-out;
+  /* pointer-events: none; */
+  /* opacity: 0; */
+}
+
+.sliders.active {
+  opacity: 1;
+  transform: translateY(0px);
+  pointer-events: all;
+}
+
+.sliders .close-adjustment {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: rgb(73, 73, 73);
+  border-top-right-radius: 1rem;
+  border-bottom-left-radius: 1rem;
+  font-size: 1rem;
+  padding: .5rem;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+  border: none;
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+}
+
+.panel {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  min-height: 20vh;
+
+}
+
+.panel button {
+  padding: 1rem 2rem;
+  border: none;
+  background-color: rgb(31, 33, 63);
+  color: white;
+  font-size: 1.2rem;
+  border-radius: 1rem;
+  margin: 1rem;
+  cursor: pointer;
+}
+
+.panel p {
+  font-size: 1.2rem;
+}
+
+.library-panel,
+.generate-panel,
+.save-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.adjust,
+.lock {
+  border: none;
+  padding: 1rem;
+  background: none;
+  cursor: pointer;
+  margin: 2rem 0rem;
+  font-size: 2rem;
+}
+
+input[type='range'] {
+  -webkit-appearance: none;
+  margin: 1rem 0rem;
+  position: relative;
+  width: 100%;
+  cursor: pointer;
+  border-radius: 1rem;
+}
+
+input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 15px;
+  height: 15px;
+  border-radius: 10px;
+  background-color: rgb(236, 236, 236);
+  border: solid 1px rgb(202, 202, 202);
+  /* overflow: visible; */
+}
