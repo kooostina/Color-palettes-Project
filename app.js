@@ -9,6 +9,12 @@ sliders.forEach(slider => {
   slider.addEventListener('input', hslControls);
 });
 
+colorDivs.forEach((div, index) => {
+  div.addEventListener('input', () => {
+    updateTextUI(index);
+  })
+})
+
 // Functions
 
 // to generate a random color in pure JS
@@ -34,17 +40,13 @@ function generateColors() {
   colorDivs.forEach((div, index) => {
     const randomColor = generateHex();
     const hexText = div.children[0];
-    // const controlsBtns = div.children[1];
-    // console.log(controlsBtns);
 
     // add the color to the bg
     div.style.backgroundColor = randomColor;
     hexText.innerText = randomColor;
-    // controlsBtns.style.color = randomColor;
 
     // check and adjust the contrast of the text of the color
     checkContrast(randomColor, hexText);
-    // checkContrast(randomColor, controlsBtns);
 
     // Initial colorize sliders
     const color = chroma(randomColor);
@@ -99,9 +101,23 @@ function hslControls(e) {
     .set("hsl.s", saturation.value)
     .set("hsl.l", brightness.value)
     .set("hsl.h", hue.value);
-  
+
   colorDivs[index].style.backgroundColor = color;
-    
+}
+
+function updateTextUI(index) {
+  const activeDiv = colorDivs[index];
+  const color = chroma(activeDiv.style.backgroundColor);
+  const textHex = activeDiv.querySelector('h2');
+  const icons = activeDiv.querySelectorAll('.controls button');
+  textHex.innerText = color.hex();
+// check contrast
+  checkContrast(color, textHex);
+  for (icon of icons) {
+    checkContrast(color, icon);
+  }
+
+
 }
 
 generateColors();
