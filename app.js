@@ -10,6 +10,9 @@ const lockBtns = document.querySelectorAll('.lock');
 const closeAdjustments = document.querySelectorAll('.close-adjustment');
 const sliderContainers = document.querySelectorAll('.sliders');
 
+// This is the array of objects for the local storage
+let savedPalettes = [];
+
 // Event Listeners
 sliders.forEach(slider => {
   slider.addEventListener('input', hslControls);
@@ -24,7 +27,7 @@ colorDivs.forEach((div, index) => {
 currentHex.forEach(hex => {
   hex.addEventListener('click', () => {
     copyToClipboard(hex);
-})
+  })
 });
 
 popup.addEventListener('transitionend', () => {
@@ -46,6 +49,12 @@ closeAdjustments.forEach((button, index) => {
 })
 
 generateBtn.addEventListener('click', generateColors);
+
+lockBtns.forEach((button, index) => {
+  button.addEventListener("click", e => {
+    lockLayer(e, index);
+  });
+});
 
 // Functions
 
@@ -74,8 +83,16 @@ function generateColors() {
   colorDivs.forEach((div, index) => {
     const hexText = div.children[0];
     const randomColor = generateHex();
+
     // add a generated random color to the initialcolors array
-    initialColors.push(chroma(randomColor).hex());
+    if (div.classList.contains('locked')) {
+      initialColors.push(hexText.innerText);
+      return;
+    } else {
+      initialColors.push(chroma(randomColor).hex());
+    }
+
+
 
     // add the color to the bg
     div.style.backgroundColor = randomColor;
@@ -211,6 +228,76 @@ function openAdjustmentPanel(index) {
 
 function closeAdjustmentPanel(index) {
   sliderContainers[index].classList.remove("active");
+}
+
+function lockLayer(e, index) {
+  const lockSVG = e.target.children[0];
+  const activeBg = colorDivs[index];
+  activeBg.classList.toggle("locked");
+
+  if (lockSVG.classList.contains("fa-lock-open")) {
+    e.target.innerHTML = '<i class="fas fa-lock"></i>';
+  } else {
+    e.target.innerHTML = '<i class="fas fa-lock-open"></i>';
+  }
+}
+
+// Implement save to Palette and local storage
+const saveBtn = document.querySelector('.save');
+const submitSave = document.querySelector('.submit-save');
+const closeSave = document.querySelector('.close-save');
+const saveContainer = document.querySelector('.save-container');
+const saveInput = document.querySelector('.save-container input');
+
+// Event listeners
+saveBtn.addEventListener('click', openPalette);
+closeSave.addEventListener('click', closePalette);
+submitSave.addEventListener('click', savePalette);
+
+// Functions
+function openPalette(e) {
+  const popup = saveContainer.children[0];
+  saveContainer.classList.add("active");
+  popup.classList.add("active");
+}
+
+function closePalette(e) {
+  const popup = saveContainer.children[0];
+  saveContainer.classList.remove("active");
+  popup.classList.remove("active");
+}
+
+function savePalette(e) {
+  saveContainer.classList.remove('active');
+  popup.classList.remove('active');
+  const name = saveInput.value;
+  const colors = [];
+  currentHex.forEach(hex => {
+    colors.push(hex.innerText);
+  });
+  // Generate Object
+  let paletteNr = savedPalettes.length;
+  const paletteObj = {
+    name,
+    colors,
+    nr: paletteNr
+  };
+  savedPalettes.push(paletteObj);
+  // Save to LocalStorage
+  savetoLocal(paletteObj);
+  saveInput.value = "";
+}
+
+function savetoLocal(paletteObj) {
+  let localPalettes;
+  if (localStorage.getItem('palettes') === null) {
+    localPalettes = [];
+  } else {
+    localPalettes = JSON.parse(localStorage.getItem("palettes"));
+  }
+  localPalettes.push(paletteObj);
+  localStorage.setItem("palettes", JSON.stringify(localPalettes));
+
 }
 
 generateColors();
