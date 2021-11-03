@@ -202,10 +202,51 @@ input[type='range']::-webkit-slider-thumb {
 .submit-save {
   margin: 2rem;
   padding: 1rem 2rem;
-  font-size: 1rem;
+  font-size: 1.2rem;
   border-radius: 1rem;
-  background: rgb(31, 33, 63);
+  background: rgb(61, 61, 61);
   color: white;
   border: none;
+}
 
+
+.small-preview {
+  display: flex;
+  flex: 1;
+}
+
+.small-preview div {
+  height: 5rem;
+  flex: 1;
+}
+
+.custom-palette {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 100%;
+  padding: 2rem;
+}
+
+.library-popup {
+  overflow-y: scroll;
+  min-width: 40%;
+  justify-content: flex-start;
+  padding: 1rem;
+  max-height: 50vh;
+}
+
+.custom-palette h4 {
+  flex: 1;
+}
+
+.pick-palette-btn {
+  margin: 1rem;
+  padding: 1rem;
+  border: none;
+  color: white;
+  background: rgb(61, 61, 61);
+  font-size: 1.2rem;
+  border-radius: 1rem;
+  cursor: pointer;
 }
